@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private VideoAdapter videoAdapter;
     private List<VideoModel> videoList = new ArrayList<>();
 
-
     private final String API_KEY = "AIzaSyDdi0EtA3JUg2LAnTYrqxW7bn-nYdj25Wk";
-
 
     private final String BASE_URL = "https://www.googleapis.com/youtube/v3/";
 
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         etSearchQuery = findViewById(R.id.etSearchQuery);
         btnSearch = findViewById(R.id.btnSearch);
@@ -69,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 if (query.isEmpty()) {
                     etSearchQuery.setError("الرجاء إدخال كلمة للبحث!");
                     Toast.makeText(MainActivity.this, "خانة البحث فارغة", Toast.LENGTH_SHORT).show();
+
+                    videoList.clear();
+                    videoAdapter.notifyDataSetChanged();
+
                 } else {
                     performSearch(query);
                 }
@@ -82,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
         videoList.clear();
         videoAdapter.notifyDataSetChanged();
 
-
         Call<YoutubeResponse> call = apiService.searchVideos(query, 10, API_KEY);
-
 
         call.enqueue(new Callback<YoutubeResponse>() {
             @Override
